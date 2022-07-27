@@ -4,25 +4,27 @@ const Button = ({ handleClick, text }) => {
   return <button onClick={handleClick}> {text}</button>;
 };
 
-const Statistics = ({clicks}) => {
+const Statistics = ({ clicks }) => {
   const all = clicks.good + clicks.neutral + clicks.bad;
-  const average = clicks.good + (clicks.neutral * 0) + (clicks.bad * -1);
+  const average = clicks.good + clicks.neutral * 0 + clicks.bad * -1;
   const positive = (clicks.good * 100) / all;
 
-  if(all === 0){
-    return(
-      <p>No feedback given</p>
-    )
+  if (all === 0) {
+    return <p>No feedback given</p>;
   }
-  
+
   return (
     <div>
-      <Statistic name="good" value={clicks.good} />
-      <Statistic name="neutral" value={clicks.neutral} />
-      <Statistic name="bad" value={clicks.bad} />
-      <Statistic name="all" value={all} />
-      <Statistic name="average" value={average / all} />
-      <Statistic name="positive" value={positive} />
+      <table>
+        <tbody>
+          <Statistic name="good" value={clicks.good} />
+          <Statistic name="neutral" value={clicks.neutral} />
+          <Statistic name="bad" value={clicks.bad} />
+          <Statistic name="all" value={all} />
+          <Statistic name="average" value={average / all} />
+          <Statistic name="positive" value={positive} />
+        </tbody>
+      </table>
     </div>
   );
 };
@@ -30,18 +32,18 @@ const Statistics = ({clicks}) => {
 const Statistic = ({ name, value }) => {
   if (name === "positive") {
     return (
-      <p>
-        {" "}
-        {name} {value} %
-      </p>
+      <tr>
+        <td>{name} </td>
+        <td> {value} %</td>
+      </tr>
     );
   }
 
   return (
-    <p>
-      {" "}
-      {name} {value}
-    </p>
+    <tr>
+      <td>{name} </td>
+      <td> {value}</td>
+    </tr>
   );
 };
 
@@ -65,7 +67,7 @@ const App = () => {
       <Button handleClick={handleNeutralClick} text="neutral" />
       <Button handleClick={handleBadlick} text="bad" />
       <h1> statistics</h1>
-      <Statistics clicks={clicks}/>
+      <Statistics clicks={clicks} />
     </div>
   );
 };
