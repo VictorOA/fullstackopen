@@ -1,29 +1,43 @@
 import { useState, useEffect } from "react";
 
-const Display = ({ counter }) =>  <div> {counter} </div>
+const History = (props) => {
+  if (props.allClicks.length === 0) {
+    return <div>the app is used by pressing the buttons</div>;
+  }
 
-const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
+  return <div>button press history: {props.allClicks.join(" ")}</div>;
+};
+
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}> {text} </button>
+);
 
 const App = () => {
-  const [counter, setCounter] = useState(0);
+  const [left, setLeft] = useState(0);
+  const [right, setRight] = useState(0);
+  const [allClicks, setAll] = useState([]);
 
-  const increaseByOne = () => setCounter(counter + 1);
-  const decreaseByOne = () => {
-     if(counter > 0)
-      setCounter(counter - 1)
+  const handleLeftClick = () => {
+    setAll(allClicks.concat("L"));
+    setLeft(left + 1);
   };
-  const setToZero = () => setCounter(0);
 
-  useEffect( () => {
-    document.title = `You clicked ${counter} times`;
-  })
+  const handleRightClick = () => {
+    setAll(allClicks.concat("R"));
+    setRight(right + 1);
+  };
+
+  useEffect(() => {
+    console.log(allClicks);
+  });
 
   return (
     <div>
-      <Display counter={counter} />
-      <Button onClick={increaseByOne} text="Increase" />
-      <Button onClick={decreaseByOne} text="Decrease" />
-      <Button onClick={setToZero} text="Reset" />
+      {left}
+      <Button handleClick={handleLeftClick} text="left" />
+      <Button handleClick={handleRightClick} text="right" />
+      {right}
+      <History allClicks={allClicks} />
     </div>
   );
 };
